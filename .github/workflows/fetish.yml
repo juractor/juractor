@@ -3,7 +3,8 @@ name: Auto commit
 on:
 
   push:
-    branches: [ master ]
+    branches: 
+      - main
       
   schedule:
   - cron: "0 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 * * *" # See https://crontab.guru/#0_7,9,11,17,20_*_*_*
