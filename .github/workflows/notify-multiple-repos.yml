@@ -91,7 +91,7 @@ jobs:
                 const lastTag = lastReleases[repo];
 
                 if (latestTag !== lastTag) {
-                  const message = `📢 [**${repo}**] New release published: **v${latestTag}**!\nhttps://github.com/${repo}/releases/tag/${latestTag}`;
+                  const message = `📢 [**${repo}**] New release published: **${latestTag}**!\nhttps://github.com/${repo}/releases/tag/${latestTag}`;
 
                   await fetch(process.env.DISCORD_WEBHOOK_URL, {
                     method: 'POST',
