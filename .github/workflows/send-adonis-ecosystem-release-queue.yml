@@ -43,7 +43,6 @@ jobs:
             const next = queue.shift();
             const message = `📢 [**${next.repo}**] New release published: **${next.tag}**!\nhttps://github.com/${next.repo}/releases/tag/${next.tag}`;
 
-            const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
             await fetch(process.env.DISCORD_WEBHOOK_URL, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
