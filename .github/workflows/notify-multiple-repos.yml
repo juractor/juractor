@@ -2,7 +2,7 @@ name: Notify Multiple Repo Releases
 
 on:
   schedule:
-    - cron: '*/10 * * * *' # cek tiap 10 menit
+    - cron: '*/1 * * * *' # cek tiap 10 menit
   workflow_dispatch:
 
 jobs:
@@ -104,6 +104,8 @@ jobs:
                   console.log(`Berhasil send webhook release [${repo}]: v${latestTag}:`);
                 }
               } catch (err) {
+                console.log('env', process.env.DISCORD_WEBHOOK_URL)
+                console.log('secret', secrets.DISCORD_WEBHOOK_URL)
                 console.log(`Gagal cek release ${repo}:`, err.message);
               }
             }
