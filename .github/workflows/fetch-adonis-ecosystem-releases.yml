@@ -27,7 +27,38 @@ jobs:
             const path = '.github/cache/release-queue.json';
             const repos = [
               'adonisjs/lucid',
+              'adonisjs/presets',
+              'adonisjs/auth',
+              'adonisjs/ace',
+              'adonisjs/health',
               'adonisjs/core',
+              'adonisjs/create-adonisjs',
+              'adonisjs/cache',
+              'adonisjs/lock',
+              'adonisjs/redis',
+              'adonisjs/mail',
+              'adonisjs/session',
+              'adonisjs/limiter',
+              'adonisjs/transmit',
+              'adonisjs/i18n',
+              'adonisjs/drive',
+              'adonisjs/eslint-config',
+              'adonisjs/eslint-plugin-adonisjs',
+              'adonisjs/tsconfig',
+              'adonisjs/prettier-config',
+              'adonisjs/assembler',
+              'adonisjs/hash',
+              'japa/create-japa',
+              'adonisjs/inertia',
+              'japa/snapshot',
+              'adonisjs/http-server',
+              'adonisjs/bouncer',
+              'adonisjs/logger',
+              'japa/api-client',
+              'adonisjs/fold',
+              'vinejs/compiler',
+              'vinejs/vine',
+              'adonisjs/vite'
               // tambahkan repos lainnya
             ];
 
