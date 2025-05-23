@@ -43,7 +43,6 @@ jobs:
               'adonisjs/i18n',
               'adonisjs/drive',
               'adonisjs/eslint-config',
-              'adonisjs/eslint-plugin-adonisjs',
               'adonisjs/tsconfig',
               'adonisjs/prettier-config',
               'adonisjs/assembler',
