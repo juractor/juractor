@@ -105,7 +105,6 @@ jobs:
                 }
               } catch (err) {
                 console.log('env', process.env.DISCORD_WEBHOOK_URL)
-                console.log('secret', secrets.DISCORD_WEBHOOK_URL)
                 console.log(`Gagal cek release ${repo}:`, err.message);
               }
             }
