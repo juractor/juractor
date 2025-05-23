@@ -67,7 +67,10 @@ jobs:
               'vinejs/vine',
               'adonisjs/vite'
             ];
-
+            
+            // Buat folder .github/cache jika belum ada
+            fs.mkdirSync('.github/cache', { recursive: true });
+            
             let queue = [];
             if (fs.existsSync(path)) {
               try {
