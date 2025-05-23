@@ -1,19 +1,19 @@
-name: Notify Multiple Repo Releases
+name: Notify Random Repo Release
 
 on:
   schedule:
-    - cron: '*/1 * * * *' # cek tiap 10 menit
+    - cron: '0 * * * *' # setiap 1 jam
   workflow_dispatch:
 
 jobs:
-  check_releases:
+  check_release:
     runs-on: ubuntu-latest
 
     env:
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
 
     steps:
-      - name: Checkout repo (untuk menyimpan cache)
+      - name: Checkout repo
         uses: actions/checkout@v4
 
       - name: Setup Node.js
@@ -30,7 +30,7 @@ jobs:
           restore-keys: |
             last-releases-cache-
 
-      - name: Check releases & notify
+      - name: Fetch and notify random repo release
         uses: actions/github-script@v6
         with:
           script: |
@@ -83,33 +83,32 @@ jobs:
               }
             }
 
-            for (const repo of repos) {
-              const [owner, repoName] = repo.split('/');
-              try {
-                const latestRelease = await github.rest.repos.getLatestRelease({ owner, repo: repoName });
-                const latestTag = latestRelease.data.tag_name;
-                const lastTag = lastReleases[repo];
+            // Ambil satu repo secara acak
+            const repo = repos[Math.floor(Math.random() * repos.length)];
+            const [owner, repoName] = repo.split('/');
 
-                if (latestTag !== lastTag) {
-                  const message = `📢 [**${repo}**] New release published: **${latestTag}**!\nhttps://github.com/${repo}/releases/tag/${latestTag}`;
+            try {
+              const latestRelease = await github.rest.repos.getLatestRelease({ owner, repo: repoName });
+              const latestTag = latestRelease.data.tag_name;
+              const lastTag = lastReleases[repo];
 
-                  await fetch(process.env.DISCORD_WEBHOOK_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ content: message }),
-                  });
+              if (latestTag !== lastTag) {
+                const message = `📢 [**${repo}**] New release published: **${latestTag}**!\nhttps://github.com/${repo}/releases/tag/${latestTag}`;
 
-                  lastReleases[repo] = latestTag;
+                await fetch(process.env.DISCORD_WEBHOOK_URL, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ content: message }),
+                });
 
-                  console.log(`Berhasil send webhook release [${repo}]: v${latestTag}:`);
-                }
-              } catch (err) {
-                console.log('env', process.env.DISCORD_WEBHOOK_URL)
-                console.log(`Gagal cek release ${repo}:`, err.message);
+                lastReleases[repo] = latestTag;
+                console.log(`✅ Webhook dikirim: ${repo} - ${latestTag}`);
+              } else {
+                console.log(`ℹ️ Tidak ada release baru untuk ${repo}`);
               }
+            } catch (err) {
+              console.log(`❌ Gagal fetch ${repo}:`, err.message);
             }
 
             fs.mkdirSync('.github/cache', { recursive: true });
             fs.writeFileSync(filePath, JSON.stringify(lastReleases, null, 2));
-
-            console.log('Update last releases:', JSON.stringify(lastReleases));
