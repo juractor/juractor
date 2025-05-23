@@ -1,0 +1,56 @@
+name: Fetch AdonisJS Releases
+
+on:
+  schedule:
+    - cron: '*/1 * * * *' # setiap 1 menit
+    # - cron: '0 0 * * *' # setiap hari jam 00:00 UTC
+  workflow_dispatch:
+
+jobs:
+  fetch_releases:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Ambil release terbaru dan simpan ke antrian
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const path = '.github/cache/release-queue.json';
+            const repos = [
+              'adonisjs/lucid',
+              'adonisjs/core',
+              // tambahkan repos lainnya
+            ];
+
+            let queue = [];
+            if (fs.existsSync(path)) {
+              try {
+                queue = JSON.parse(fs.readFileSync(path, 'utf-8'));
+              } catch {}
+            }
+
+            for (const repo of repos) {
+              const [owner, repoName] = repo.split('/');
+              try {
+                const release = await github.rest.repos.getLatestRelease({ owner, repo: repoName });
+                const latestTag = release.data.tag_name;
+                if (!queue.find(q => q.repo === repo && q.tag === latestTag)) {
+                  queue.push({ repo, tag: latestTag, url: release.data.html_url });
+                  console.log(`Ditambahkan ke antrian: ${repo} - ${latestTag}`);
+                }
+              } catch (err) {
+                console.log(`Gagal ambil release ${repo}:`, err.message);
+              }
+            }
+
+            fs.mkdirSync('.github/cache', { recursive: true });
+            fs.writeFileSync(path, JSON.stringify(queue, null, 2));
