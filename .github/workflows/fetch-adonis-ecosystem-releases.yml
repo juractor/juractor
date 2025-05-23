@@ -19,6 +19,13 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Restore cache antrian release
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: .github/cache/release-queue.json
+          key: release-queue-cache
+
       - name: Ambil release terbaru dan simpan ke antrian
         uses: actions/github-script@v6
         with:
@@ -32,6 +39,7 @@ jobs:
               'adonisjs/ace',
               'adonisjs/health',
               'adonisjs/core',
+              'adonisjs/eslint-plugin-adonisjs',
               'adonisjs/create-adonisjs',
               'adonisjs/cache',
               'adonisjs/lock',
@@ -58,7 +66,6 @@ jobs:
               'vinejs/compiler',
               'vinejs/vine',
               'adonisjs/vite'
-              // tambahkan repos lainnya
             ];
 
             let queue = [];
@@ -66,6 +73,7 @@ jobs:
               try {
                 queue = JSON.parse(fs.readFileSync(path, 'utf-8'));
               } catch {}
+
             }
 
             for (const repo of repos) {
@@ -84,3 +92,9 @@ jobs:
 
             fs.mkdirSync('.github/cache', { recursive: true });
             fs.writeFileSync(path, JSON.stringify(queue, null, 2));
+          
+      - name: Save cache antrian release
+        uses: actions/cache@v4
+        with:
+          path: .github/cache/release-queue.json
+          key: release-queue-cache
