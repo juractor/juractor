@@ -1,0 +1,54 @@
+name: Send Release Queue
+
+on:
+  schedule:
+    - cron: '0 * * * *' # setiap jam
+  workflow_dispatch:
+
+jobs:
+  send_release:
+    runs-on: ubuntu-latest
+
+    env:
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Kirim 1 antrian ke Discord
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const path = '.github/cache/release-queue.json';
+
+            let queue = [];
+            if (fs.existsSync(path)) {
+              try {
+                queue = JSON.parse(fs.readFileSync(path, 'utf-8'));
+              } catch {}
+            }
+
+            if (queue.length === 0) {
+              console.log('Antrian kosong');
+              return;
+            }
+
+            const next = queue.shift();
+            const message = `📢 [**${next.repo}**] New release published: **${next.tag}**!\nhttps://github.com/${next.repo}/releases/tag/${next.tag}`;
+
+            const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+            await fetch(process.env.DISCORD_WEBHOOK_URL, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ content: message }),
+            });
+
+            fs.writeFileSync(path, JSON.stringify(queue, null, 2));
+            console.log('Berhasil kirim dan update antrian.');
