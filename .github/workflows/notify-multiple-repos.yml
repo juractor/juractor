@@ -35,7 +35,6 @@ jobs:
         with:
           script: |
             const fs = require('fs');
-            const fetch = require('node-fetch');
 
             const repos = [
               'adonisjs/lucid',
