@@ -2,7 +2,7 @@ name: Send Random Hadith to Telegram
 
 on:
   schedule:
-    - cron: '*/1 * * * *' # setiap 1 menit
+    - cron: '0 * * * *' # setiap 1 jam
   workflow_dispatch:
 
 jobs:
