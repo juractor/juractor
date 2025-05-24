@@ -15,24 +15,24 @@ jobs:
           TELEGRAM_TOKEN: '7487887948:AAEEdKxvvhXDhucMJIIMuq0wgzAkImjR_y4' # ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: '-1002576241215' # ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-              const id = Math.floor(Math.random() * 50) + 1;  // ganti 50 sesuai total hadits
-              const url = `https://hadis-api-id.vercel.app/hadith/abu-dawud/${id}`;
-              const res = await fetch(url);
-              if (!res.ok) throw new Error('Failed to fetch hadith');
-              const data = await res.json();
+          const id = Math.floor(Math.random() * 50) + 1;  // ganti 50 sesuai total hadits
+          const url = `https://hadis-api-id.vercel.app/hadith/abu-dawud/${id}`;
+          const res = await fetch(url);
+          if (!res.ok) throw new Error('Failed to fetch hadith');
+            const data = await res.json();
 
-              const message = data.arab
+            const message = data.arab
 
-              const token = '7487887948:AAEEdKxvvhXDhucMJIIMuq0wgzAkImjR_y4' # process.env.TELEGRAM_TOKEN;
-              const chatId = '-1002576241215' # process.env.TELEGRAM_CHAT_ID;
-              const sendRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: chatId, text: message }),
-              });
+            const token = '7487887948:AAEEdKxvvhXDhucMJIIMuq0wgzAkImjR_y4' # process.env.TELEGRAM_TOKEN;
+            const chatId = '-1002576241215' # process.env.TELEGRAM_CHAT_ID;
+            const sendRes = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ chat_id: chatId, text: message }),
+            });
 
-              if (!sendRes.ok) {
-                const errText = await sendRes.text();
-                throw new Error('Telegram API error: ' + errText);
-              }
+            if (!sendRes.ok) {
+              const errText = await sendRes.text();
+              throw new Error('Telegram API error: ' + errText);
+            }
           "
