@@ -87,7 +87,7 @@ jobs:
 
               // Ambil hasil teks olahan dari Gemini API (sesuaikan struktur response-nya)
               // Saya asumsikan di geminiData.contents[0].parts[0].text
-              const processedText = geminiData.contents?.[0]?.parts?.[0]?.text || "Maaf, tidak ada hasil dari Gemini.";
+              const processedText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, tidak ada hasil dari Gemini.";
 
               // Kirim hasil olahan ke Telegram
               const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
