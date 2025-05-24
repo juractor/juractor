@@ -27,8 +27,22 @@ jobs:
         with:
           script: |
             await (async () => {
-              const id = Math.floor(Math.random() * 50) + 1;  // ganti 50 sesuai total hadits
-              const url = `https://hadis-api-id.vercel.app/hadith/abu-dawud/${id}`;
+              const perawiList = [
+                { name: "Abu Dawud", slug: "abu-dawud", total: 4419 },
+                { name: "Ahmad", slug: "ahmad", total: 4305 },
+                { name: "Bukhari", slug: "bukhari", total: 6638 },
+                { name: "Darimi", slug: "darimi", total: 2949 },
+                { name: "Ibnu Majah", slug: "ibnu-majah", total: 4285 },
+                { name: "Malik", slug: "malik", total: 1587 },
+                { name: "Muslim", slug: "muslim", total: 4930 },
+                { name: "Nasai", slug: "nasai", total: 5364 },
+                { name: "Tirmidzi", slug: "tirmidzi", total: 3625 }
+              ];
+            
+              const randomPerawi = perawiList[Math.floor(Math.random() * perawiList.length)];
+              const id = Math.floor(Math.random() * randomPerawi.total) + 1;
+              
+              const url = `https://hadis-api-id.vercel.app/hadith/${randomPerawi.slug}/${id}`;
               const res = await fetch(url);
   
               if (!res.ok) throw new Error('Failed to fetch hadith');
