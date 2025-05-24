@@ -96,60 +96,59 @@ jobs:
               const lastTag = lastReleases[repo];
 
               if (latestTag !== lastTag) {
-                const originalText = `
-                📢 ${repo} ${latestTag} ${repo} ${latestTag}
+                const originalText = `📢 ${repo} ${latestTag} ${repo} ${latestTag}`.trim();
 
-                  // Kirim originalText ke Gemini untuk diproses (rapikan / jelaskan)
-                  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
-                  const geminiBody = {
-                    contents: [
-                      {
-                        parts: [
-                          {
-                            text: `Rapikan dan tidak perlu menggunakan markdown (jangan gunakan tanda bintang, bold, italic, heading, dsb). Hasil akhir harus berisi:
-                    1. Tambah Authornya
-                    2. Fitur yang ditambah
-                    3. Bug yang di fix apa
-                    4. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
-                    
-                    Contoh output yang diinginkan:
-                    
-                    📢 Update tersedia untuk *${repo}* – versi **${latestTag}** telah dirilis!
+                // Kirim originalText ke Gemini untuk diproses (rapikan / jelaskan)
+                const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+                const geminiBody = {
+                  contents: [
+                    {
+                      parts: [
+                        {
+                          text: `Rapikan dan tidak perlu menggunakan markdown (jangan gunakan tanda bintang, bold, italic, heading, dsb). Hasil akhir harus berisi:
+                  1. Tambah Authornya
+                  2. Fitur yang ditambah
+                  3. Bug yang di fix apa
+                  4. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
+                  
+                  Contoh output yang diinginkan:
+                  
+                  📢 Update tersedia untuk *${repo}* – versi **${latestTag}** telah dirilis!
 
-                    📋 Catatan Rilis:
-                    ${releaseBody
-                      .split('\n')
-                      .slice(0, 7)
-                      .join('\n')
-                      .replace(/- /g, '• ')
-                      .replace(/feat/i, '✨')
-                      .replace(/fix/i, '🐛')
-                      .replace(/docs?/i, '📝')
-                      .replace(/chore/i, '🔧')}
-                    
-                    🔗 Lihat selengkapnya: https://github.com/${repo}/releases/tag/${latestTag}`;:\n\n${originalText}`
-                          }
-                        ]
-                      }
-                    ]
-                  };
-    
-                  const geminiRes = await fetch(geminiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(geminiBody)
-                  });
-    
-                  if (!geminiRes.ok) {
-                    const geminiErr = await geminiRes.text();
-                    throw new Error('Gemini API error: ' + geminiErr);
-                  }
-    
-                  const geminiData = await geminiRes.json();
-    
-                  // Ambil hasil teks olahan dari Gemini API (sesuaikan struktur response-nya)
-                  // Saya asumsikan di geminiData.contents[0].parts[0].text
-                  const processedText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, tidak ada hasil dari Gemini.";
+                  📋 Catatan Rilis:
+                  ${releaseBody
+                    .split('\n')
+                    .slice(0, 7)
+                    .join('\n')
+                    .replace(/- /g, '• ')
+                    .replace(/feat/i, '✨')
+                    .replace(/fix/i, '🐛')
+                    .replace(/docs?/i, '📝')
+                    .replace(/chore/i, '🔧')}
+                  
+                  🔗 Lihat selengkapnya: https://github.com/${repo}/releases/tag/${latestTag}`;:\n\n${originalText}`
+                        }
+                      ]
+                    }
+                  ]
+                };
+  
+                const geminiRes = await fetch(geminiUrl, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(geminiBody)
+                });
+  
+                if (!geminiRes.ok) {
+                  const geminiErr = await geminiRes.text();
+                  throw new Error('Gemini API error: ' + geminiErr);
+                }
+  
+                const geminiData = await geminiRes.json();
+  
+                // Ambil hasil teks olahan dari Gemini API (sesuaikan struktur response-nya)
+                // Saya asumsikan di geminiData.contents[0].parts[0].text
+                const processedText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, tidak ada hasil dari Gemini.";
 
                 const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
                   method: 'POST',
