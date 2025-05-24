@@ -108,9 +108,11 @@ jobs:
                         {
                           text: `Rapikan dan tidak perlu menggunakan markdown (jangan gunakan tanda bintang, bold, italic, heading, dsb). Hasil akhir harus berisi:
                   1. Tambah Authornya
+                  2. Kontributor
                   2. Fitur yang ditambah
                   3. Bug yang di fix apa
                   4. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
+                  5. Tolong gausah kasih saran apapun, langsung intinya karna ini broadcast
                   
                   Contoh output yang diinginkan:
                   
