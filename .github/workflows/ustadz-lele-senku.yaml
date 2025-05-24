@@ -69,7 +69,7 @@ jobs:
                 1. Judul tematik singkat yang relevan
                 2. Teks Arab hadis
                 3. Terjemahan hadis yang tersusun baik per kalimat
-                4. Sumber hadis
+                4. Sumber hadis disertai kitab dan nomornya
                 5. Derajat hadis (jika ada)
                 6. Penjelasan tambahan dari ulama jika ada (gunakan sumber seperti Ibnul Qayyim, Imam Nawawi, dll)
                 7. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
@@ -86,7 +86,7 @@ jobs:
                 Para sahabat bertanya, "Kapan itu akan terjadi, wahai Rasulullah?"
                 Beliau menjawab, "Ketika alat musik (ma'azif) dan penyanyi wanita (al-qaynat) merajalela, serta khomr (minuman keras) dikonsumsi secara luas."
                 
-                (HR. Sunan at-Tirmidzi, Sunan Ibn Majah, Sunan al-Kubra, Imam at-Tabari)
+                (HR. Sunan at-Tirmidzi No 123, Bukhari No 456) Nama kitab disini
                 
                 Derajat Hadits: Shohih oleh Imam al-Hakim, Hasan oleh Syaikh al-Albani.
                 
@@ -121,10 +121,10 @@ jobs:
 
               const chatIds = [
                 '-1002584233987', // Channel Ustadz Lele Senku
-                '-1002557349745', // Group King JS Enthusiast
-                '-1002154280083', // Group Persatuan Lele
-                '-1002680935409', // Group Ilmu Islam (Diskas)
-                '-1002559331377', // Group Revolusioner
+                // '-1002557349745', // Group King JS Enthusiast
+                // '-1002154280083', // Group Persatuan Lele
+                // '-1002680935409', // Group Ilmu Islam (Diskas)
+                // '-1002559331377', // Group Revolusioner
               ];
 
               for (const chatId of chatIds) {
