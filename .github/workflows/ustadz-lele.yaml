@@ -33,7 +33,11 @@ jobs:
   
               if (!res.ok) throw new Error('Failed to fetch hadith');
               const data = await res.json();
-              const message = data.arab;
+              const message = `
+              ${data.arab}
+              
+              ${data.id}
+              `;
   
               const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
                 method: 'POST',
