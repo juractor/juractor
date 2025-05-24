@@ -61,7 +61,6 @@ jobs:
               // Kirim originalText ke Gemini untuk diproses (rapikan / jelaskan)
               const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
               const geminiBody = {
-                temperature: 0.5,
                 contents: [
                   {
                     parts: [
