@@ -1,0 +1,108 @@
+name: Send Random Hadith to Telegram
+
+on:
+  schedule:
+    - cron: '0 * * * *' # setiap 1 jam
+  workflow_dispatch:
+
+jobs:
+  send_hadith:
+    runs-on: ubuntu-latest
+
+    env:
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      TELEGRAM_CHAT_ID: '-1002557349745'
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Send random hadith to Telegram with Gemini processing
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await (async () => {
+              const perawiList = [
+                { name: "Abu Dawud", slug: "abu-dawud", total: 4419 },
+                { name: "Ahmad", slug: "ahmad", total: 4305 },
+                { name: "Bukhari", slug: "bukhari", total: 6638 },
+                { name: "Darimi", slug: "darimi", total: 2949 },
+                { name: "Ibnu Majah", slug: "ibnu-majah", total: 4285 },
+                { name: "Malik", slug: "malik", total: 1587 },
+                { name: "Muslim", slug: "muslim", total: 4930 },
+                { name: "Nasai", slug: "nasai", total: 5364 },
+                { name: "Tirmidzi", slug: "tirmidzi", total: 3625 }
+              ];
+            
+              const randomPerawi = perawiList[Math.floor(Math.random() * perawiList.length)];
+              const id = Math.floor(Math.random() * randomPerawi.total) + 1;
+              
+              const url = `https://hadis-api-id.vercel.app/hadith/${randomPerawi.slug}/${id}`;
+              const res = await fetch(url);
+  
+              if (!res.ok) throw new Error('Failed to fetch hadith');
+              const data = await res.json();
+
+              // Gabungkan teks arab + terjemahan + narasumber hadits jadi satu string
+              const originalText = `
+${data.arab}
+
+${data.id}
+
+HR. ${data.name}
+              `.trim();
+
+              // Kirim originalText ke Gemini untuk diproses (rapikan / jelaskan)
+              const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+              const geminiBody = {
+                contents: [
+                  {
+                    parts: [
+                      {
+                        text: `Rapikan dan jelaskan teks berikut agar mudah dipahami:\n\n${originalText}`
+                      }
+                    ]
+                  }
+                ]
+              };
+
+              const geminiRes = await fetch(geminiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(geminiBody)
+              });
+
+              if (!geminiRes.ok) {
+                const geminiErr = await geminiRes.text();
+                throw new Error('Gemini API error: ' + geminiErr);
+              }
+
+              const geminiData = await geminiRes.json();
+
+              // Ambil hasil teks olahan dari Gemini API (sesuaikan struktur response-nya)
+              // Saya asumsikan di geminiData.contents[0].parts[0].text
+              const processedText = geminiData.contents?.[0]?.parts?.[0]?.text || "Maaf, tidak ada hasil dari Gemini.";
+
+              // Kirim hasil olahan ke Telegram
+              const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  chat_id: process.env.TELEGRAM_CHAT_ID,
+                  text: processedText
+                }),
+              });
+  
+              if (!sendRes.ok) {
+                const errText = await sendRes.text();
+                throw new Error('Telegram API error: ' + errText);
+              }
+  
+              console.log(`✅ Hadith processed and sent to Telegram: ID ${id}`);
+            })();
