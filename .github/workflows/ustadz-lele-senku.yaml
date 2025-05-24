@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN_USTADZ_LELE_SENKU }}
       TELEGRAM_CHAT_ID: '-1002584233987' # Ga dipake karna pakai array dibawah 
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
