@@ -111,11 +111,11 @@ jobs:
                   throw new Error('Telegram API error chat: ' + errText);
                 }
                 
-                # await fetch(process.env.DISCORD_WEBHOOK_URL, {
-                #   method: 'POST',
-                #   headers: { 'Content-Type': 'application/json' },
-                #   body: JSON.stringify({ content: message }),
-                # });
+                // await fetch(process.env.DISCORD_WEBHOOK_URL, {
+                //  method: 'POST',
+                //  headers: { 'Content-Type': 'application/json' },
+                //  body: JSON.stringify({ content: message }),
+                // });
 
                 lastReleases[repo] = latestTag;
                 console.log(`✅ Webhook dikirim: ${repo} - ${latestTag}`);
