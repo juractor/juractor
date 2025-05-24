@@ -95,7 +95,8 @@ jobs:
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                   chat_id: process.env.TELEGRAM_CHAT_ID,
-                  text: processedText
+                  // text: processedText
+                  text: geminiData
                 }),
               });
   
