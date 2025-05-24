@@ -26,26 +26,28 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const id = Math.floor(Math.random() * 50) + 1;  // ganti 50 sesuai total hadits
-            const url = `https://hadis-api-id.vercel.app/hadith/abu-dawud/${id}`;
-            const res = await fetch(url);
-
-            if (!res.ok) throw new Error('Failed to fetch hadith');
-            const data = await res.json();
-            const message = data.arab;
-
-            const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                chat_id: '-1002576241215', TELEGRAM_CHAT_ID
-                text: message
-              }),
-            });
-
-            if (!sendRes.ok) {
-              const errText = await sendRes.text();
-              throw new Error('Telegram API error: ' + errText);
-            }
-
-            console.log(`✅ Hadith terkirim: ID ${id}`);
+            await (async () => {
+              const id = Math.floor(Math.random() * 50) + 1;  // ganti 50 sesuai total hadits
+              const url = `https://hadis-api-id.vercel.app/hadith/abu-dawud/${id}`;
+              const res = await fetch(url);
+  
+              if (!res.ok) throw new Error('Failed to fetch hadith');
+              const data = await res.json();
+              const message = data.arab;
+  
+              const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  chat_id: '-1002576241215', TELEGRAM_CHAT_ID
+                  text: message
+                }),
+              });
+  
+              if (!sendRes.ok) {
+                const errText = await sendRes.text();
+                throw new Error('Telegram API error: ' + errText);
+              }
+  
+              console.log(`✅ Hadith terkirim: ID ${id}`);
+            })();
