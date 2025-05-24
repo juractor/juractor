@@ -110,9 +110,10 @@ jobs:
                   1. Fitur yang ditambah
                   2. Bug yang di fix apa
                   3. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
-                  4. Kalo tidak ada informasi kasih tanda -
-                  5. Kalo ketemu prefix convensional commit ganti pake emoji contoh fix jadi 🐛
-                  6. Tolong gausah kasih saran apapun, langsung intinya karna ini broadcast
+                  4. Kalo tidak ada informasi kasih tidak ada
+                  5. Kalo ketemu prefix convensional commit ganti pake emoji contoh fix: jadi 🐛
+                  6. Tambahkan link release tag dan repository nya
+                  7. Tolong gausah kasih saran apapun, langsung intinya karna ini broadcast
                   
                   Contoh output yang diinginkan:
                   
