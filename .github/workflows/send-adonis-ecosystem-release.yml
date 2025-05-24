@@ -11,6 +11,8 @@ jobs:
 
     env:
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN_ADONIS_ANNOUNCEMENT }}
+      TELEGRAM_CHAT_ID: '-1002557349745' # Group Adonis Enthusiast
 
     steps:
       - name: Checkout repo
@@ -95,11 +97,25 @@ jobs:
               if (latestTag !== lastTag) {
                 const message = `📢 [**${repo}**] New release published: **${latestTag}**!\nhttps://github.com/${repo}/releases/tag/${latestTag}`;
 
-                await fetch(process.env.DISCORD_WEBHOOK_URL, {
+                const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ content: message }),
+                  body: JSON.stringify({
+                    chat_id: process.env.TELEGRAM_CHAT_ID,
+                    text: message
+                  }),
                 });
+    
+                if (!sendRes.ok) {
+                  const errText = await sendRes.text();
+                  throw new Error('Telegram API error chat: ' + errText);
+                }
+                
+                # await fetch(process.env.DISCORD_WEBHOOK_URL, {
+                #   method: 'POST',
+                #   headers: { 'Content-Type': 'application/json' },
+                #   body: JSON.stringify({ content: message }),
+                # });
 
                 lastReleases[repo] = latestTag;
                 console.log(`✅ Webhook dikirim: ${repo} - ${latestTag}`);
