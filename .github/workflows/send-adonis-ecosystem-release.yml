@@ -94,6 +94,7 @@ jobs:
               const latestRelease = await github.rest.repos.getLatestRelease({ owner, repo: repoName });
               const latestTag = latestRelease.data.tag_name;
               const lastTag = lastReleases[repo];
+              const releaseBody = latestRelease.data.body || '';
 
               if (latestTag !== lastTag) {
                 const originalText = `📢 ${repo} ${latestTag} ${repo} ${latestTag}`.trim();
