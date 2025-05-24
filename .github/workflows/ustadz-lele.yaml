@@ -39,7 +39,7 @@ jobs:
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                  chat_id: '-1002576241215', TELEGRAM_CHAT_ID
+                  chat_id: '-1002576241215', // TELEGRAM_CHAT_ID
                   text: message
                 }),
               });
