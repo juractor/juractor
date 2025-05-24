@@ -111,6 +111,7 @@ jobs:
                   2. Bug yang di fix apa
                   3. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
                   4. Kalo tidak ada informasi kasih tanda -
+                  5. Kalo ketemu prefix convensional commit ganti pake emoji contoh fix jadi 🐛
                   6. Tolong gausah kasih saran apapun, langsung intinya karna ini broadcast
                   
                   Contoh output yang diinginkan:
@@ -118,15 +119,7 @@ jobs:
                   📢 Update tersedia untuk *${repo}* – versi **${latestTag}** telah dirilis!
 
                   📋 Catatan Rilis:
-                  ${releaseBody
-                    .split('\n')
-                    .slice(0, 7)
-                    .join('\n')
-                    .replace(/- /g, '• ')
-                    .replace(/feat/i, '✨')
-                    .replace(/fix/i, '🐛')
-                    .replace(/docs?/i, '📝')
-                    .replace(/chore/i, '🔧')}
+                  ${releaseBody}
                   
                   🔗 Lihat selengkapnya: https://github.com/${repo}/releases/tag/${latestTag}:\n\n${originalText}`
                         }
