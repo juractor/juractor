@@ -1,0 +1,51 @@
+name: Fetch Random Hadith and Send to Telegram
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Setiap jam
+  workflow_dispatch:
+
+jobs:
+  send-hadith:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send random hadith to Telegram
+        env:
+          TELEGRAM_TOKEN: '7487887948:AAEEdKxvvhXDhucMJIIMuq0wgzAkImjR_y4' # ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: '-1002576241215' # ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          node -e "
+          (async () => {
+            try {
+              const id = Math.floor(Math.random() * 50) + 1;  // ganti 50 sesuai total hadits
+              const url = https://hadis-api-id.vercel.app/hadith/abu-dawud/${id};
+              const res = await fetch(url);
+              if (!res.ok) throw new Error('Failed to fetch hadith');
+              const data = await res.json();
+
+              const message = 
+${data.arab}
+
+\"${data.id}\"
+(Referensi: ${data.name} nomor ${data.number})
+              ;
+
+              const token = '7487887948:AAEEdKxvvhXDhucMJIIMuq0wgzAkImjR_y4' # process.env.TELEGRAM_TOKEN;
+              const chatId = '-1002576241215' # process.env.TELEGRAM_CHAT_ID;
+              const sendRes = await fetch(\https://api.telegram.org/bot\${token}/sendMessage\, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ chat_id: chatId, text: message }),
+              });
+
+              if (!sendRes.ok) {
+                const errText = await sendRes.text();
+                throw new Error('Telegram API error: ' + errText);
+              }
+            } catch (err) {
+              console.error(err);
+              process.exit(1);
+            }
+          })();
+          "
