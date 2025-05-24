@@ -121,6 +121,7 @@ jobs:
 
               const chatIds = [
                 '-1002584233987', // Channel Ustadz Lele Senku
+                '-2557349745', // Group King JS Enthusiast
                 '-1002154280083', // Group Persatuan Lele
                 '-1002680935409', // Group Ilmu Islam (Diskas)
                 '-1002559331377', // Group Revolusioner
