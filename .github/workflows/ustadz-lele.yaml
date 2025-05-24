@@ -15,7 +15,6 @@ jobs:
           TELEGRAM_TOKEN: '7487887948:AAEEdKxvvhXDhucMJIIMuq0wgzAkImjR_y4' # ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: '-1002576241215' # ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          try {
               const id = Math.floor(Math.random() * 50) + 1;  // ganti 50 sesuai total hadits
               const url = `https://hadis-api-id.vercel.app/hadith/abu-dawud/${id}`;
               const res = await fetch(url);
@@ -36,8 +35,4 @@ jobs:
                 const errText = await sendRes.text();
                 throw new Error('Telegram API error: ' + errText);
               }
-            } catch (err) {
-              console.error(err);
-              process.exit(1);
-            }
           "
