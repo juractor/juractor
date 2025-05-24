@@ -37,6 +37,8 @@ jobs:
               ${data.arab}
               
             ${data.id}
+
+            HR. ${data.name}
               `;
   
               const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
