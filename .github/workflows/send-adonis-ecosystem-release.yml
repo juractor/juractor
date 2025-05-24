@@ -126,7 +126,7 @@ jobs:
                     .replace(/docs?/i, '📝')
                     .replace(/chore/i, '🔧')}
                   
-                  🔗 Lihat selengkapnya: https://github.com/${repo}/releases/tag/${latestTag}`;:\n\n${originalText}`
+                  🔗 Lihat selengkapnya: https://github.com/${repo}/releases/tag/${latestTag}:\n\n${originalText}`
                         }
                       ]
                     }
