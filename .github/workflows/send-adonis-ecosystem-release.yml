@@ -112,7 +112,8 @@ jobs:
                   2. Fitur yang ditambah
                   3. Bug yang di fix apa
                   4. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
-                  5. Tolong gausah kasih saran apapun, langsung intinya karna ini broadcast
+                  5. Kalo tidak ada informasi kasih tanda -
+                  6. Tolong gausah kasih saran apapun, langsung intinya karna ini broadcast
                   
                   Contoh output yang diinginkan:
                   
@@ -129,6 +130,7 @@ jobs:
                     .replace(/docs?/i, '📝')
                     .replace(/chore/i, '🔧')}
                   
+                  Full Changelog: https://github.com/blabla
                   🔗 Lihat selengkapnya: https://github.com/${repo}/releases/tag/${latestTag}:\n\n${originalText}`
                         }
                       ]
