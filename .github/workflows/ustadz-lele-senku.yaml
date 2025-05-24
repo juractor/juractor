@@ -11,7 +11,7 @@ jobs:
 
     env:
       TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-      TELEGRAM_CHAT_ID: '-1002557349745'
+      TELEGRAM_CHAT_ID: '-1002584233987'
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
     steps:
