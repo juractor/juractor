@@ -11,7 +11,7 @@ jobs:
 
     env:
       TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-      TELEGRAM_CHAT_ID: '-1002584233987'
+      TELEGRAM_CHAT_ID: '-1002584233987' # Ga dipake karna pakai array dibawah 
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
     steps:
@@ -119,20 +119,28 @@ jobs:
               // Saya asumsikan di geminiData.contents[0].parts[0].text
               const processedText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, tidak ada hasil dari Gemini.";
 
-              // Kirim hasil olahan ke Telegram
-              const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  chat_id: process.env.TELEGRAM_CHAT_ID,
-                  text: processedText
-                }),
-              });
-  
-              if (!sendRes.ok) {
-                const errText = await sendRes.text();
-                throw new Error('Telegram API error: ' + errText);
+              const chatIds = [
+                '-1002584233987', // Channel Ustadz Lele Senku
+                '-1002154280083', // Group Persatuan Lele
+                '-1002680935409', // Group Ilmu Islam (Diskas)
+              ];
+
+              for (const chatId of chatIds) {
+                // Kirim hasil olahan ke Telegram
+                const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    chat_id: chatId,
+                    text: processedText
+                  }),
+                });
+    
+                if (!sendRes.ok) {
+                  const errText = await sendRes.text();
+                  throw new Error('Telegram API error for chat ID ${chatId}: ' + errText);
+                }
+
+                console.log(`✅ Hadith processed and sent to Telegram: ID ${chatId}`);
               }
-  
-              console.log(`✅ Hadith processed and sent to Telegram: ID ${id}`);
             })();
