@@ -65,7 +65,36 @@ jobs:
                   {
                     parts: [
                       {
-                        text: `Rapikan dan jelaskan teks berikut agar mudah dipahami:\n\n${originalText}`
+                        text: `Rapikan dan jelaskan hadis berikut dengan gaya bahasa ilmiah yang rapi, tidak perlu menggunakan markdown (jangan gunakan tanda bintang, bold, italic, heading, dsb). Hasil akhir harus berisi:
+                1. Judul tematik singkat yang relevan
+                2. Teks Arab hadis
+                3. Terjemahan hadis yang tersusun baik per kalimat
+                4. Sumber hadis
+                5. Derajat hadis (jika ada)
+                6. Penjelasan tambahan dari ulama jika ada (gunakan sumber seperti Ibnul Qayyim, Imam Nawawi, dll)
+                
+                Contoh output yang diinginkan:
+                
+                Musik dan Penyanyi Wanita
+                
+                عَنْ سَهْلِ بْنِ سَعْدٍ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللَّهِ ﷺ قَالَ: 
+                "سَيَكُونُ فِي آخِرِ الزَّمَانِ خَسْفٌ وَقَذْفٌ وَمَسْخٌ"، قِيلَ: يَا رَسُولَ اللَّهِ، وَمَتَى ذَاكَ؟ قَالَ: "إِذَا ظَهَرَتِ الْمَعَازِفُ وَالْقَيْنَاتُ، وَشُرِبَتِ الْخُمُورُ".
+                
+                Dari Sahl bin Sa’d radhiyallahu ‘anhu, bahwa Rasulullah ﷺ bersabda:
+                "Akan ada pada akhir zaman nanti peristiwa tanah longsor (penenggelaman bumi), hujan batu, dan perubahan bentuk manusia."
+                Para sahabat bertanya, "Kapan itu akan terjadi, wahai Rasulullah?"
+                Beliau menjawab, "Ketika alat musik (ma'azif) dan penyanyi wanita (al-qaynat) merajalela, serta khomr (minuman keras) dikonsumsi secara luas."
+                
+                (HR. Sunan at-Tirmidzi, Sunan Ibn Majah, Sunan al-Kubra, Imam at-Tabari)
+                
+                Derajat Hadits: Shohih oleh Imam al-Hakim, Hasan oleh Syaikh al-Albani.
+                
+                Ibnul Qayyim rohimahullah berkata:
+                
+                المعازف هي آلات اللهو كلها، لا خلاف بين أهل اللغة في ذلك. وإذا أضيفت القينات إلى المعازف وغناء الركبان، ولم يُنكَر ذلك، دلّ على شدة تمكن ذلك من القلوب، ومحبته لها، ورضاهم بها، حتى جعلوه ديدنهم.
+                
+                Alat musik adalah seluruhnya yang menghibur, tidak ada perbedaan di antara ahli bahasa dalam hal ini. Dan apabila para penyanyi wanita digandengkan dengan alat-alat musik dan nyanyian, dan tidak ada pengingkaran terhadap hal itu, maka ini menunjukkan betapa kuatnya pengaruhnya dalam hati mereka, kecintaan mereka terhadapnya, dan keridhoan mereka atas hal itu, hingga mereka menjadikannya kebiasaan.
+                (Ighatsah al-Lahfan, 1/260-261):\n\n${originalText}`
                       }
                     ]
                   }
