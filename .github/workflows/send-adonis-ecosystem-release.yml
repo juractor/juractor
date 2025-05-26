@@ -158,9 +158,6 @@ jobs:
                 releaseBody = latestCommit.data[0].commit.message;
                 isTagFromCommit = true;
               }
-
-              console.log(repo)
-              console.log(latestRelease)
               
               if (latestRelease) {
                 const lastTag = lastReleases[repo];
@@ -243,6 +240,7 @@ jobs:
                 }
               } else {
                 const commit = latestCommit.data[0].commit;
+                console.log(commit)
                 identifier = latestCommit.data[0].sha
                 const originalText = `📢 ${latestCommit.data[0]}`.trim();
   
