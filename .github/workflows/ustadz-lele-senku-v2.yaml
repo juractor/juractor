@@ -133,7 +133,7 @@ jobs:
                   text: processedText
                 }
 
-                if (chat.tread_id) {
+                if (chat.message_thread_id) {
                   payload.message_thread_id = chat.message_thread_id
                 }
                 
