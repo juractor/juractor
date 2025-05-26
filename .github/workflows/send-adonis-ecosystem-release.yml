@@ -139,7 +139,7 @@ jobs:
 
             // Ambil satu repo secara acak
             const repo = repos[Math.floor(Math.random() * repos.length)];
-            const [owner, repoName] = repo.split('/');
+            const [owner, repoName] = 'KABBOUCHI/adonisjs-scheduler'.split('/');
 
             try {
               let latestCommit = ''
