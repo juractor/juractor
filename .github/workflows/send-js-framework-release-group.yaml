@@ -105,7 +105,7 @@ jobs:
                     
                     Contoh output yang diinginkan:
                     
-                    📢 Update tersedia untuk package Adonis 6: *${repo}* – versi **${latestTag}** telah dirilis!
+                    📢 Update tersedia untuk JS Framework: *${repo}* – versi **${latestTag}** telah dirilis!
   
                     📋 Catatan Rilis:
                     ${releaseBody}
