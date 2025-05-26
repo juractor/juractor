@@ -177,8 +177,8 @@ jobs:
                     4. Kalo tidak ada informasi kasih tidak ada
                     5. Kalo ketemu prefix convensional commit ganti pake emoji contoh fix: jadi 🐛
                     6. Tambahkan link release tag dan repository nya
-                    7. Tolong gausah kasih saran apapun, langsung intinya karna ini broadcast
-                    8. Tolong repo nya sesuai ${repo}
+                    7. Gausah kasih saran apapun, langsung intinya karna ini broadcast
+                    8. Repo nya sesuai ${repo}
                     
                     Contoh output yang diinginkan:
                     
@@ -256,9 +256,9 @@ jobs:
                   4. Kalo tidak ada informasi kasih tidak ada
                   5. Kalo ketemu prefix convensional commit ganti pake emoji contoh fix: jadi 🐛
                   6. Tambahkan link commit terakhirnya dan repository nya
-                  7. Tolong gausah kasih saran apapun, langsung intinya karna ini broadcast
-                  8. Tolong repo nya sesuai ${repo}
-                  9. Tolong identifier nya sesuai ${identifier}
+                  7. Gausah kasih saran apapun, langsung intinya karna ini broadcast
+                  8. Repo nya sesuai ${repo}
+                  9. Identifier commit nya sesuai ${identifier}
                   
                   Contoh output yang diinginkan:
                   
