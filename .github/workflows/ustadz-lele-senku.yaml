@@ -120,22 +120,43 @@ jobs:
               const processedText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, tidak ada hasil dari Gemini.";
 
               const chatIds = [
-                '-1002584233987', // Channel Ustadz Lele Senku
-                '-1002557349745', // Group King JS Enthusiast
-                '-1002154280083', // Group Persatuan Lele
-                '-1002680935409', // Group Ilmu Islam (Diskas)
-                '-1002559331377', // Group Revolusioner
+                {
+                  id: '-1002584233987', // Channel Ustadz Lele Senku
+                  tread_id: null,
+                },
+                {
+                  id: '-1002557349745', // Group King JS Enthusiast
+                  tread_id: 1362,
+                },
+                {
+                  id: '-1002154280083', // Group Persatuan Lele
+                  tread_id: null,
+                },
+                {
+                  id: '-1002680935409', // Group Ilmu Islam (Diskas)
+                  tread_id: null,
+                },
+                {
+                  id: '-1002559331377', // Group Revolusioner
+                  tread_id: null,
+                }
               ];
 
               for (const chatId of chatIds) {
                 // Kirim hasil olahan ke Telegram
+                const payload = {
+                  chat_id: chatId,
+                  text: processedText
+                }
+
+                if (chatId.tread_id) {
+                  payload.tread_id = chatId.tread_id
+                }
+                
                 const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    chat_id: chatId,
-                    text: processedText
-                  }),
+                  body: JSON.stringify(payload),
                 });
     
                 if (!sendRes.ok) {
