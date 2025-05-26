@@ -240,6 +240,8 @@ jobs:
                   console.log(`ℹ️ Tidak ada release baru untuk ${repo}`);
                 }
               } else {
+                console.log(latestCommit)
+                
                 const commit = latestCommit.commit;
                 identifier = latestCommit.sha
                 const originalText = `📢 ${latestCommit}`.trim();
