@@ -242,6 +242,7 @@ jobs:
                   console.log(`ℹ️ Tidak ada release baru untuk ${repo}`);
                 }
               } else {
+                identifier = commit.sha
                 const originalText = `📢 ${latestCommit.data}`.trim();
   
                 // Kirim originalText ke Gemini untuk diproses (rapikan / jelaskan)
@@ -252,22 +253,21 @@ jobs:
                       parts: [
                         {
                           text: `Rapikan dan tidak perlu menggunakan markdown (jangan gunakan tanda bintang, bold, italic, heading, dsb). Hasil akhir harus berisi:
-                  1. Fitur yang ditambah
-                  2. Bug yang di fix apa
+                  1. Commit terakhir
                   3. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
                   4. Kalo tidak ada informasi kasih tidak ada
                   5. Kalo ketemu prefix convensional commit ganti pake emoji contoh fix: jadi 🐛
-                  6. Tambahkan link release tag dan repository nya
+                  6. Tambahkan link commit terakhirnya dan repository nya
                   7. Tolong gausah kasih saran apapun, langsung intinya karna ini broadcast
                   
                   Contoh output yang diinginkan:
                   
-                  📢 Update tersedia untuk *${repo}* – versi **${latestTag}** telah dirilis!
+                  📢 Update tersedia untuk *${repo}* – mainteners belum menerbitkan versi release!
 
-                  📋 Catatan Rilis:
-                  ${releaseBody}
+                  📋 Catatan Commit:
+                  ${commit.commit.message}
                   
-                  🔗 Lihat selengkapnya: https://github.com/${repo}/releases/tag/${latestTag}:\n\n${originalText}`
+                  🔗 Lihat selengkapnya: https://github.com/${repo}/commit/${identifier}:\n\n${originalText}`
                         }
                       ]
                     }
