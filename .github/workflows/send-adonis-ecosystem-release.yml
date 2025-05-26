@@ -244,6 +244,7 @@ jobs:
                 }
               } else {
                 const commit = latestCommit.data[0];
+                console.log(commit)
                 identifier = commit.sha
                 const originalText = `📢 ${latestCommit.data}`.trim();
   
