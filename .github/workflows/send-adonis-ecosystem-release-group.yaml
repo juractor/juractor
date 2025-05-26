@@ -12,7 +12,7 @@ jobs:
     env:
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
       TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN_ADONIS_ANNOUNCEMENT }}
-      TELEGRAM_CHAT_ID: '-2557349745' # Group Adonis Enthusiast
+      TELEGRAM_CHAT_ID: '-1002557349745' # Group Adonis Enthusiast
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
     steps:
