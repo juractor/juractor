@@ -79,7 +79,7 @@ jobs:
               'WailRoth/adonis-ally-apple-v6',
               'batosai/adonis-attachment',
               'StouderIO/adonis-auditing',
-              'Artian-Techs/adonis-breadcrumbs'
+              'Artian-Techs/adonis-breadcrumbs',
               '7nohe/adonis-bullet',
               'monojson/adonis-captcha-guard',
               'adityadarma/adonis-datatables',
