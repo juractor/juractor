@@ -121,25 +121,9 @@ jobs:
 
               const chats = [
                 {
-                  id: '-1002584233987', // Channel Ustadz Lele Senku
-                  tread_id: null,
-                },
-                {
                   id: '-1002557349745', // Group King JS Enthusiast
-                  tread_id: 1362,
+                  message_thread_id: 1362,
                 },
-                {
-                  id: '-1002154280083', // Group Persatuan Lele
-                  tread_id: null,
-                },
-                {
-                  id: '-1002680935409', // Group Ilmu Islam (Diskas)
-                  tread_id: null,
-                },
-                {
-                  id: '-1002559331377', // Group Revolusioner
-                  tread_id: null,
-                }
               ];
 
               for (const chat of chats) {
@@ -150,7 +134,7 @@ jobs:
                 }
 
                 if (chat.tread_id) {
-                  payload.tread_id = chat.tread_id
+                  payload.message_thread_id = chat.message_thread_id
                 }
                 
                 const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
