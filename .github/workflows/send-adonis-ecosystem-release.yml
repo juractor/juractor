@@ -162,7 +162,7 @@ jobs:
               console.log(repo)
               console.log(latestRelease)
               
-              if (latestRelease.data) {
+              if (latestRelease) {
                 const lastTag = lastReleases[repo];
 
                 if (latestTag !== lastTag) {
