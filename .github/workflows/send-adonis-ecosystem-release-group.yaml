@@ -169,6 +169,7 @@ jobs:
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                       chat_id: process.env.TELEGRAM_CHAT_ID,
+                      message_thread_id: 1331, // Adonis Release
                       text: processedText
                     }),
                   });
@@ -248,6 +249,7 @@ jobs:
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
                     chat_id: process.env.TELEGRAM_CHAT_ID,
+                    message_thread_id: 1331, // Adonis Release
                     text: processedText
                   }),
                 });
