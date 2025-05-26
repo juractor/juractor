@@ -161,6 +161,8 @@ jobs:
                 releaseBody = latestCommit.data[0].commit.message;
                 isTagFromCommit = true;
               }
+
+              const lastTag = lastReleases[repo];
               
               if (latestTag !== lastTag) {
                 const originalText = `📢 ${latestRelease.data}`.trim();
