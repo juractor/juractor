@@ -240,7 +240,10 @@ jobs:
                 }
               } else {
                 const commit = latestCommit.data[0].commit;
-                console.log(commit)
+                
+                console.log(repo)
+                console.log(latestCommit.data[0])
+                
                 identifier = latestCommit.data[0].sha
                 const originalText = `📢 ${latestCommit.data[0]}`.trim();
   
