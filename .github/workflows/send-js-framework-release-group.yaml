@@ -47,6 +47,7 @@ jobs:
               'sveltejs/svelte',
               'sveltejs/svelte',
               'withastro/astro',
+              'tailwindlabs/tailwindcss'
             ];
 
             const filePath = '.github/cache/last-releases.json';
