@@ -154,9 +154,7 @@ jobs:
                 releaseBody = latestRelease.data.body || '';
               } catch (err) {
                 latestCommit = await github.rest.repos.listCommits({ owner, repo: repoName, per_page: 1 });
-                latestTag = latestCommit.data[0].sha.substring(0, 7);
                 releaseBody = latestCommit.data[0].commit.message;
-                isTagFromCommit = true;
               }
               
               if (latestRelease) {
@@ -239,8 +237,6 @@ jobs:
                   console.log(`ℹ️ Tidak ada release baru untuk ${repo}`);
                 }
               } else {
-                const commit = latestCommit.data[0].commit;
-                
                 console.log(repo)
                 console.log(latestCommit.data[0])
                 
@@ -267,7 +263,7 @@ jobs:
                   📢 Update tersedia untuk *${repo}* – mainteners belum menerbitkan versi release!
 
                   📋 Catatan Commit:
-                  ${commit.message}
+                  ${releaseBody}
                   
                   🔗 Lihat selengkapnya: https://github.com/${repo}/commit/${identifier}:\n\n${originalText}`
                         }
