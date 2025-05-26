@@ -147,11 +147,6 @@ jobs:
               let latestRelease = null;
               let releaseBody = '';
               let isTagFromCommit = false;
-              
-              // const latestRelease = await github.rest.repos.getLatestRelease({ owner, repo: repoName });
-              // const latestTag = latestRelease.data.tag_name;
-              // const lastTag = lastReleases[repo];
-              // const releaseBody = latestRelease.data.body || '';
 
               try {
                 latestRelease = await github.rest.repos.getLatestRelease({ owner, repo: repoName });
@@ -164,6 +159,8 @@ jobs:
                 isTagFromCommit = true;
               }
 
+              console.log(latestRelease)
+              
               if (latestRelease) {
                 const lastTag = lastReleases[repo];
 
@@ -243,10 +240,9 @@ jobs:
                   console.log(`ℹ️ Tidak ada release baru untuk ${repo}`);
                 }
               } else {
-                const commit = latestCommit.data[0];
-                console.log(commit)
-                identifier = commit.sha
-                const originalText = `📢 ${latestCommit.data}`.trim();
+                const commit = latestCommit.commit;
+                identifier = latestCommit.sha
+                const originalText = `📢 ${latestCommit}`.trim();
   
                 // Kirim originalText ke Gemini untuk diproses (rapikan / jelaskan)
                 const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
@@ -268,7 +264,7 @@ jobs:
                   📢 Update tersedia untuk *${repo}* – mainteners belum menerbitkan versi release!
 
                   📋 Catatan Commit:
-                  ${commit.commit.message}
+                  ${commit.message}
                   
                   🔗 Lihat selengkapnya: https://github.com/${repo}/commit/${identifier}:\n\n${originalText}`
                         }
