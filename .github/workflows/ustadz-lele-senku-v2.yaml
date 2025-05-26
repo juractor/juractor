@@ -121,9 +121,25 @@ jobs:
 
               const chats = [
                 {
+                  id: '-1002584233987', // Channel Ustadz Lele Senku
+                  message_thread_id: null,
+                },
+                {
                   id: '-1002557349745', // Group King JS Enthusiast
                   message_thread_id: 1362,
                 },
+                {
+                  id: '-1002154280083', // Group Persatuan Lele
+                  message_thread_id: null,
+                },
+                {
+                  id: '-1002680935409', // Group Ilmu Islam (Diskas)
+                  message_thread_id: null,
+                },
+                {
+                  id: '-1002559331377', // Group Revolusioner
+                  message_thread_id: null,
+                }
               ];
 
               for (const chat of chats) {
