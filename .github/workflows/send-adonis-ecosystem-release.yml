@@ -162,7 +162,7 @@ jobs:
               console.log(repo)
               console.log(latestRelease)
               
-              if (latestRelease) {
+              if (latestRelease.data) {
                 const lastTag = lastReleases[repo];
 
                 if (latestTag !== lastTag) {
@@ -183,6 +183,7 @@ jobs:
                     5. Kalo ketemu prefix convensional commit ganti pake emoji contoh fix: jadi 🐛
                     6. Tambahkan link release tag dan repository nya
                     7. Tolong gausah kasih saran apapun, langsung intinya karna ini broadcast
+                    8. Tolong repo nya sesuai ${repo}
                     
                     Contoh output yang diinginkan:
                     
