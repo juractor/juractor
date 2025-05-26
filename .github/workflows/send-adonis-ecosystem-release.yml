@@ -82,7 +82,7 @@ jobs:
               'Artian-Techs/adonis-breadcrumbs'
               '7nohe/adonis-bullet',
               'monojson/adonis-captcha-guard',
-              'adityadarma/adonis-datatables,
+              'adityadarma/adonis-datatables',
               'adityadarma/adonis-logger-slack',
               'StouderIO/adonis-translatable',
               'batosai/adonis-unpoly',
