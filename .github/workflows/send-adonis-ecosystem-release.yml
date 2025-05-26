@@ -143,6 +143,7 @@ jobs:
 
             try {
               let latestTag = null;
+              let latestRelease = null;
               let releaseBody = '';
               let isTagFromCommit = false;
               
@@ -152,7 +153,7 @@ jobs:
               // const releaseBody = latestRelease.data.body || '';
 
               try {
-                const latestRelease = await github.rest.repos.getLatestRelease({ owner, repo: repoName });
+                latestRelease = await github.rest.repos.getLatestRelease({ owner, repo: repoName });
                 latestTag = latestRelease.data.tag_name;
                 releaseBody = latestRelease.data.body || '';
               } catch (err) {
@@ -162,11 +163,87 @@ jobs:
                 isTagFromCommit = true;
               }
 
-              const lastTag = lastReleases[repo];
-              
-              if (latestTag !== lastTag) {
-                const originalText = `📢 ${latestRelease.data}`.trim();
+              if (latestRelease) {
+                const lastTag = lastReleases[repo];
 
+                if (latestTag !== lastTag) {
+                  const originalText = `📢 ${latestRelease.data}`.trim();
+  
+                  // Kirim originalText ke Gemini untuk diproses (rapikan / jelaskan)
+                  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+                  const geminiBody = {
+                    contents: [
+                      {
+                        parts: [
+                          {
+                            text: `Rapikan dan tidak perlu menggunakan markdown (jangan gunakan tanda bintang, bold, italic, heading, dsb). Hasil akhir harus berisi:
+                    1. Fitur yang ditambah
+                    2. Bug yang di fix apa
+                    3. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
+                    4. Kalo tidak ada informasi kasih tidak ada
+                    5. Kalo ketemu prefix convensional commit ganti pake emoji contoh fix: jadi 🐛
+                    6. Tambahkan link release tag dan repository nya
+                    7. Tolong gausah kasih saran apapun, langsung intinya karna ini broadcast
+                    
+                    Contoh output yang diinginkan:
+                    
+                    📢 Update tersedia untuk *${repo}* – versi **${latestTag}** telah dirilis!
+  
+                    📋 Catatan Rilis:
+                    ${releaseBody}
+                    
+                    🔗 Lihat selengkapnya: https://github.com/${repo}/releases/tag/${latestTag}:\n\n${originalText}`
+                          }
+                        ]
+                      }
+                    ]
+                  };
+    
+                  const geminiRes = await fetch(geminiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(geminiBody)
+                  });
+    
+                  if (!geminiRes.ok) {
+                    const geminiErr = await geminiRes.text();
+                    throw new Error('Gemini API error: ' + geminiErr);
+                  }
+    
+                  const geminiData = await geminiRes.json();
+    
+                  // Ambil hasil teks olahan dari Gemini API (sesuaikan struktur response-nya)
+                  // Saya asumsikan di geminiData.contents[0].parts[0].text
+                  const processedText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, tidak ada hasil dari Gemini.";
+  
+                  const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      chat_id: process.env.TELEGRAM_CHAT_ID,
+                      text: processedText
+                    }),
+                  });
+      
+                  if (!sendRes.ok) {
+                    const errText = await sendRes.text();
+                    throw new Error('Telegram API error chat: ' + errText);
+                  }
+                  
+                  // await fetch(process.env.DISCORD_WEBHOOK_URL, {
+                  //  method: 'POST',
+                  //  headers: { 'Content-Type': 'application/json' },
+                  //  body: JSON.stringify({ content: message }),
+                  // });
+  
+                  lastReleases[repo] = latestTag;
+                  console.log(`✅ Webhook dikirim: ${repo} - ${latestTag}`);
+                } else {
+                  console.log(`ℹ️ Tidak ada release baru untuk ${repo}`);
+                }
+              } else {
+                const originalText = `📢 ${latestCommit.data}`.trim();
+  
                 // Kirim originalText ke Gemini untuk diproses (rapikan / jelaskan)
                 const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
                 const geminiBody = {
@@ -236,8 +313,6 @@ jobs:
 
                 lastReleases[repo] = latestTag;
                 console.log(`✅ Webhook dikirim: ${repo} - ${latestTag}`);
-              } else {
-                console.log(`ℹ️ Tidak ada release baru untuk ${repo}`);
               }
             } catch (err) {
               console.log(`❌ Gagal fetch ${repo}:`, err.message);
