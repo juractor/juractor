@@ -257,6 +257,8 @@ jobs:
                   5. Kalo ketemu prefix convensional commit ganti pake emoji contoh fix: jadi 🐛
                   6. Tambahkan link commit terakhirnya dan repository nya
                   7. Tolong gausah kasih saran apapun, langsung intinya karna ini broadcast
+                  8. Tolong repo nya sesuai ${repo}
+                  9. Tolong identifier nya sesuai ${identifier}
                   
                   Contoh output yang diinginkan:
                   
