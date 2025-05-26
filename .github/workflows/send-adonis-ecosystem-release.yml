@@ -182,7 +182,7 @@ jobs:
                     
                     Contoh output yang diinginkan:
                     
-                    📢 Update tersedia untuk *${repo}* – versi **${latestTag}** telah dirilis!
+                    📢 Update tersedia untuk Adonis 6 package: *${repo}* – versi **${latestTag}** telah dirilis!
   
                     📋 Catatan Rilis:
                     ${releaseBody}
@@ -262,7 +262,9 @@ jobs:
                   
                   Contoh output yang diinginkan:
                   
-                  📢 Update tersedia untuk *${repo}* – mainteners belum menerbitkan versi release!
+                  📢 Update tersedia untuk Adonis 6 package: *${repo}*
+                  
+                  Mainteners belum menerbitkan versi release!
 
                   📋 Catatan Commit:
                   ${releaseBody}
