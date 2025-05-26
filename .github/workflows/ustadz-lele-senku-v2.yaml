@@ -1,4 +1,4 @@
-name: Send Random Hadith to Telegram v1.1.0
+name: Send Random Hadith to Telegram
 
 on:
   schedule:
