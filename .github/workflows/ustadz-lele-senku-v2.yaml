@@ -149,7 +149,7 @@ jobs:
                   text: processedText
                 }
 
-                if (chatId.tread_id) {
+                if (chat.tread_id) {
                   payload.tread_id = chat.tread_id
                 }
                 
