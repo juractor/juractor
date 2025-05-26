@@ -29,9 +29,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .github/cache/last-releases.json
-          key: last-releases-cache-v1_3-${{ github.run_id }}
+          key: last-releases-cache-v1_4-${{ github.run_id }}
           restore-keys: |
-            last-releases-cache-v1_2-
+            last-releases-cache-v1_4-
 
       - name: Fetch and notify random repo release
         uses: actions/github-script@v6
