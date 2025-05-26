@@ -158,8 +158,6 @@ jobs:
                 releaseBody = latestCommit.data[0].commit.message;
                 isTagFromCommit = true;
               }
-
-              console.log(latestRelease)
               
               if (latestRelease) {
                 const lastTag = lastReleases[repo];
