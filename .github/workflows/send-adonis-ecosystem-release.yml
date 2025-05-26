@@ -182,7 +182,7 @@ jobs:
                     
                     Contoh output yang diinginkan:
                     
-                    📢 Update tersedia untuk Adonis 6 package: *${repo}* – versi **${latestTag}** telah dirilis!
+                    📢 Update tersedia untuk package Adonis 6: *${repo}* – versi **${latestTag}** telah dirilis!
   
                     📋 Catatan Rilis:
                     ${releaseBody}
@@ -237,9 +237,6 @@ jobs:
                   console.log(`ℹ️ Tidak ada release baru untuk ${repo}`);
                 }
               } else {
-                console.log(repo)
-                console.log(latestCommit.data[0])
-                
                 identifier = latestCommit.data[0].sha
                 const originalText = `📢 ${latestCommit.data[0]}`.trim();
   
@@ -262,7 +259,7 @@ jobs:
                   
                   Contoh output yang diinginkan:
                   
-                  📢 Update tersedia untuk Adonis 6 package: *${repo}*
+                  📢 Update tersedia untuk package Adonis 6: *${repo}*
                   
                   Mainteners belum menerbitkan versi release!
 
