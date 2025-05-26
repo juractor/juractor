@@ -1,4 +1,4 @@
-name: Send Adonis Ecosystem Release
+name: Send Adonis Ecosystem Release Group
 
 on:
   schedule:
