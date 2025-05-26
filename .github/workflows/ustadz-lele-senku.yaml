@@ -1,0 +1,169 @@
+name: Send Random Hadith to Telegram
+
+on:
+  schedule:
+    - cron: '0 */4 * * *' # setiap 4 jam = 6 hadist dalam sehari
+  workflow_dispatch:
+
+jobs:
+  send_hadith:
+    runs-on: ubuntu-latest
+
+    env:
+      TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN_USTADZ_LELE_SENKU }}
+      TELEGRAM_CHAT_ID: '-1002584233987' # Ga dipake karna pakai array dibawah 
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Send random hadith to Telegram with Gemini processing
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await (async () => {
+              const perawiList = [
+                { name: "Abu Dawud", slug: "abu-dawud", total: 4419 },
+                { name: "Ahmad", slug: "ahmad", total: 4305 },
+                { name: "Bukhari", slug: "bukhari", total: 6638 },
+                { name: "Darimi", slug: "darimi", total: 2949 },
+                { name: "Ibnu Majah", slug: "ibnu-majah", total: 4285 },
+                { name: "Malik", slug: "malik", total: 1587 },
+                { name: "Muslim", slug: "muslim", total: 4930 },
+                { name: "Nasai", slug: "nasai", total: 5364 },
+                { name: "Tirmidzi", slug: "tirmidzi", total: 3625 }
+              ];
+            
+              const randomPerawi = perawiList[Math.floor(Math.random() * perawiList.length)];
+              const id = Math.floor(Math.random() * randomPerawi.total) + 1;
+              
+              const url = `https://hadis-api-id.vercel.app/hadith/${randomPerawi.slug}/${id}`;
+              const res = await fetch(url);
+  
+              if (!res.ok) throw new Error('Failed to fetch hadith');
+              const data = await res.json();
+
+              // Gabungkan teks arab + terjemahan + narasumber hadits jadi satu string
+              const originalText = `
+            ${data.arab}
+            
+            ${data.id}
+            
+            HR. ${data.name}
+                          `.trim();
+
+              // Kirim originalText ke Gemini untuk diproses (rapikan / jelaskan)
+              const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+              const geminiBody = {
+                contents: [
+                  {
+                    parts: [
+                      {
+                        text: `Rapikan dan jelaskan hadis berikut dengan gaya bahasa ilmiah yang rapi, tidak perlu menggunakan markdown (jangan gunakan tanda bintang, bold, italic, heading, dsb). Hasil akhir harus berisi:
+                1. Judul tematik singkat yang relevan
+                2. Teks Arab hadis
+                3. Terjemahan hadis yang tersusun baik per kalimat
+                4. Sumber hadis disertai kitab dan nomornya
+                5. Derajat hadis (jika ada)
+                6. Penjelasan tambahan dari ulama jika ada (gunakan sumber seperti Ibnul Qayyim, Imam Nawawi, dll)
+                7. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
+                
+                Contoh output yang diinginkan:
+                
+                Musik dan Penyanyi Wanita
+                
+                عَنْ سَهْلِ بْنِ سَعْدٍ رَضِيَ اللَّهُ عَنْهُ، أَنَّ رَسُولَ اللَّهِ ﷺ قَالَ: 
+                "سَيَكُونُ فِي آخِرِ الزَّمَانِ خَسْفٌ وَقَذْفٌ وَمَسْخٌ"، قِيلَ: يَا رَسُولَ اللَّهِ، وَمَتَى ذَاكَ؟ قَالَ: "إِذَا ظَهَرَتِ الْمَعَازِفُ وَالْقَيْنَاتُ، وَشُرِبَتِ الْخُمُورُ".
+                
+                Dari Sahl bin Sa’d radhiyallahu ‘anhu, bahwa Rasulullah ﷺ bersabda:
+                "Akan ada pada akhir zaman nanti peristiwa tanah longsor (penenggelaman bumi), hujan batu, dan perubahan bentuk manusia."
+                Para sahabat bertanya, "Kapan itu akan terjadi, wahai Rasulullah?"
+                Beliau menjawab, "Ketika alat musik (ma'azif) dan penyanyi wanita (al-qaynat) merajalela, serta khomr (minuman keras) dikonsumsi secara luas."
+                
+                (HR. Sunan at-Tirmidzi No 123, Bukhari No 456) Nama kitab disini
+                
+                Derajat Hadits: Shohih oleh Imam al-Hakim, Hasan oleh Syaikh al-Albani.
+                
+                Ibnul Qayyim rohimahullah berkata:
+                
+                المعازف هي آلات اللهو كلها، لا خلاف بين أهل اللغة في ذلك. وإذا أضيفت القينات إلى المعازف وغناء الركبان، ولم يُنكَر ذلك، دلّ على شدة تمكن ذلك من القلوب، ومحبته لها، ورضاهم بها، حتى جعلوه ديدنهم.
+                
+                Alat musik adalah seluruhnya yang menghibur, tidak ada perbedaan di antara ahli bahasa dalam hal ini. Dan apabila para penyanyi wanita digandengkan dengan alat-alat musik dan nyanyian, dan tidak ada pengingkaran terhadap hal itu, maka ini menunjukkan betapa kuatnya pengaruhnya dalam hati mereka, kecintaan mereka terhadapnya, dan keridhoan mereka atas hal itu, hingga mereka menjadikannya kebiasaan.
+                (Ighatsah al-Lahfan, 1/260-261):\n\n${originalText}`
+                      }
+                    ]
+                  }
+                ]
+              };
+
+              const geminiRes = await fetch(geminiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(geminiBody)
+              });
+
+              if (!geminiRes.ok) {
+                const geminiErr = await geminiRes.text();
+                throw new Error('Gemini API error: ' + geminiErr);
+              }
+
+              const geminiData = await geminiRes.json();
+
+              // Ambil hasil teks olahan dari Gemini API (sesuaikan struktur response-nya)
+              // Saya asumsikan di geminiData.contents[0].parts[0].text
+              const processedText = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, tidak ada hasil dari Gemini.";
+
+              const chatIds = [
+                {
+                  id: '-1002584233987', // Channel Ustadz Lele Senku
+                  tread_id: null,
+                },
+                {
+                  id: '-1002557349745', // Group King JS Enthusiast
+                  tread_id: 1362,
+                },
+                {
+                  id: '-1002154280083', // Group Persatuan Lele
+                  tread_id: null,
+                },
+                {
+                  id: '-1002680935409', // Group Ilmu Islam (Diskas)
+                  tread_id: null,
+                },
+                {
+                  id: '-1002559331377', // Group Revolusioner
+                  tread_id: null,
+                }
+              ];
+
+              for (const chatId of chatIds) {
+                // Kirim hasil olahan ke Telegram
+                const payload = {
+                  chat_id: chatId,
+                  text: processedText
+                }
+
+                if (chatId.tread_id) {
+                  payload.tread_id = chatId.tread_id
+                }
+                
+                const sendRes = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_TOKEN}/sendMessage`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(payload),
+                });
+    
+                if (!sendRes.ok) {
+                  const errText = await sendRes.text();
+                  throw new Error('Telegram API error for chat ID ${chatId}: ' + errText);
+                }
+
+                console.log(`✅ Hadith processed and sent to Telegram: ID ${chatId}`);
+              }
+            })();
