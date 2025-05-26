@@ -238,11 +238,9 @@ jobs:
                   console.log(`ℹ️ Tidak ada release baru untuk ${repo}`);
                 }
               } else {
-                console.log(latestCommit)
-                
-                const commit = latestCommit.commit;
-                identifier = latestCommit.sha
-                const originalText = `📢 ${latestCommit}`.trim();
+                const commit = latestCommit.data[0].commit;
+                identifier = latestCommit.data[0].sha
+                const originalText = `📢 ${latestCommit.data[0]}`.trim();
   
                 // Kirim originalText ke Gemini untuk diproses (rapikan / jelaskan)
                 const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
