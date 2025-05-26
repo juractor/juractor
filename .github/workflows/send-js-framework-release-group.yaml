@@ -29,7 +29,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .github/cache/last-releases.json
-          key: last-releases-cache-v1_2-${{ github.run_id }}
+          key: last-releases-cache-v1_3-${{ github.run_id }}
           restore-keys: |
             last-releases-cache-v1_2-
 
@@ -218,7 +218,7 @@ jobs:
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
                     chat_id: process.env.TELEGRAM_CHAT_ID,
-                    message_thread_id: '1352',
+                    message_thread_id: 1352,
                     text: processedText
                   }),
                 });
