@@ -70,9 +70,11 @@ jobs:
                 2. Teks Arab hadis
                 3. Terjemahan hadis yang tersusun baik per kalimat
                 4. Sumber hadis disertai kitab dan nomornya
-                5. Derajat hadis (jika ada)
-                6. Penjelasan tambahan dari ulama jika ada (gunakan sumber seperti Ibnul Qayyim, Imam Nawawi, dll)
-                7. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
+                5. Derajat hadis (jika ada) disertai nama ulama yang men-takhrij dan menilai derajat hadisnya (contoh: Al-Albani, Ibnu Hajar, An-Nawawi, dll).
+                6. Jika terdapat redaksi yang berbeda (syawahid), sebutkan secara ringkas.
+                7. Penjelasan tambahan dari ulama jika ada (gunakan sumber seperti Ibnul Qayyim, Imam Nawawi, dll)
+                8. Jika memungkinkan, sebutkan juga konteks historis atau sebab wurud (asbabul wurud) hadis tersebut.
+                9. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
                 
                 Contoh output yang diinginkan:
                 
@@ -89,13 +91,17 @@ jobs:
                 (HR. Sunan at-Tirmidzi No 123, Bukhari No 456) Nama kitab disini
                 
                 Derajat Hadits: Shohih oleh Imam al-Hakim, Hasan oleh Syaikh al-Albani.
+
+                Redaksi disini jika ada
                 
                 Ibnul Qayyim rohimahullah berkata:
                 
                 المعازف هي آلات اللهو كلها، لا خلاف بين أهل اللغة في ذلك. وإذا أضيفت القينات إلى المعازف وغناء الركبان، ولم يُنكَر ذلك، دلّ على شدة تمكن ذلك من القلوب، ومحبته لها، ورضاهم بها، حتى جعلوه ديدنهم.
                 
                 Alat musik adalah seluruhnya yang menghibur, tidak ada perbedaan di antara ahli bahasa dalam hal ini. Dan apabila para penyanyi wanita digandengkan dengan alat-alat musik dan nyanyian, dan tidak ada pengingkaran terhadap hal itu, maka ini menunjukkan betapa kuatnya pengaruhnya dalam hati mereka, kecintaan mereka terhadapnya, dan keridhoan mereka atas hal itu, hingga mereka menjadikannya kebiasaan.
-                (Ighatsah al-Lahfan, 1/260-261):\n\n${originalText}`
+                (Ighatsah al-Lahfan, 1/260-261):\n\n${originalText}
+                
+                Asbabul wurud disini`
                       }
                     ]
                   }
@@ -121,24 +127,8 @@ jobs:
 
               const chats = [
                 {
-                  id: '-1002584233987', // Channel Ustadz Lele Senku
-                  message_thread_id: null,
-                },
-                {
                   id: '-1002557349745', // Group King JS Enthusiast
                   message_thread_id: 1362,
-                },
-                {
-                  id: '-1002154280083', // Group Persatuan Lele
-                  message_thread_id: null,
-                },
-                {
-                  id: '-1002680935409', // Group Ilmu Islam (Diskas)
-                  message_thread_id: null,
-                },
-                {
-                  id: '-1002559331377', // Group Revolusioner
-                  message_thread_id: null,
                 }
               ];
 
