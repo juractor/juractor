@@ -71,10 +71,8 @@ jobs:
                 3. Terjemahan hadis yang tersusun baik per kalimat
                 4. Sumber hadis disertai kitab dan nomornya
                 5. Derajat hadis (jika ada) disertai nama ulama yang men-takhrij dan menilai derajat hadisnya (contoh: Al-Albani, Ibnu Hajar, An-Nawawi, dll).
-                6. Jika terdapat redaksi yang berbeda (syawahid), sebutkan secara ringkas.
-                7. Penjelasan tambahan dari ulama jika ada (gunakan sumber seperti Ibnul Qayyim, Imam Nawawi, dll)
-                8. Jika memungkinkan, sebutkan juga konteks historis atau sebab wurud (asbabul wurud) hadis tersebut.
-                9. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
+                6. Penjelasan tambahan dari ulama jika ada (gunakan sumber seperti Ibnul Qayyim, Imam Nawawi, dll)
+                7. Rapikan dan tolong keluarkan hasil dalam format teks polos, tanpa markdown, tanpa tanda *
                 
                 Contoh output yang diinginkan:
                 
