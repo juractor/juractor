@@ -139,10 +139,6 @@ jobs:
                 {
                   id: '-1002680935409', // Group Ilmu Islam (Diskas)
                   message_thread_id: null,
-                },
-                {
-                  id: '-1002559331377', // Group Revolusioner
-                  message_thread_id: null,
                 }
               ];
 
